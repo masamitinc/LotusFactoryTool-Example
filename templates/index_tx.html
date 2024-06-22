@@ -1,57 +1,31 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Lotus</title>
+    <title>Lotus {{ configargs['stationtype'] }}</title>
     <link rel=stylesheet type=text/css href="{{ url_for('static', filename='water.css') }}"/>
 </head>
 <body>
     <img src="{{ url_for('static', filename='lotus_logo.svg') }}" alt="Lotus" style="max-height:32px" width="671" height="133" />
 
-    <h1>Lotus Factory Tool for TX</h1>
-
+    <h1>{{ configargs['stationtype'] }}</h1>
     <form action="/" method="POST">
-        <fieldset>
-          <legend>VIS LED</legend>
-          <div>
-            <input type="radio" id="rb_visled1" name="result_visled" value="OK" required/>
-            <label for="VisLedChoice_OK">OK</label>
-            <input type="radio" id="rb_visled2" name="result_visled" value="NG" required/>
-            <label for="VisLedChoice_NG">NG</label>
-          </div>
-        </fieldset>
-        <fieldset>
-            <legend>IR LED</legend>
-            <div>
-              <input type="radio" id="rb_irled1" name="result_irled" value="OK" required/>
-              <label for="IrLedChoice_OK">OK</label>
-              <input type="radio" id="rb_irled2" name="result_irled" value="NG" required/>
-              <label for="IrLedChoice_NG">NG</label>
-            </div>
-        </fieldset>
-        <fieldset>
-            <legend>Button</legend>
-            <div>
-              <input type="radio" id="rb_button1" name="result_button" value="OK" required/>
-              <label for="ButtonChoice_OK">OK</label>
-              <input type="radio" id="rb_button2" name="result_button" value="NG" required/>
-              <label for="ButtonChoice_NG">NG</label>
-            </div>
-        </fieldset>
-        <fieldset>
-            <legend>BarCode#1</legend>
-            <div>
-                <input type="text" name="TextBarCode_1" maxlength="20" id="id_TextBarCode_1" required="required">
-            </div>
-        </fieldset>
-        <fieldset>
-            <legend>BarCode#2</legend>
-            <div>
-                <input type="text" name="TextBarCode_2" maxlength="20" id="id_TextBarCode_2" required="required">
-            </div>
-        </fieldset>
-        <div>
-            <input type="submit" value="Submit">
-        </div>
+	{% for c in configargs['columns'] %}
+	  <fieldset>
+		<legend> {{ c['name'] }} </legend>
+		<div>
+		  {{ c['prompt'] }}
+		  {% if c['inputtype'] == 'text' %}
+                	<input type="text" name="{{ c['name'] }}" maxlength="20" id="{{ c['name'] }}" required="required">
+		  {% endif %}
+		  {% if c['inputtype'] == 'radiobutton' %}
+			{% for opt in c['radiooptions'] %}
+            			<input type="radio" id="{{ opt['name'] }}" name="{{ opt['name'] }}" value="{{ opt['name'] }}" required/>
+            			<label for="{{ opt['name'] }}">{{ opt['name'] }}</label>
+			{% endfor %}
+		  {% endif %}
+		</div>
+	  </fieldset>
+	{% endfor %}
     </form>      
 </body>
 </html>

@@ -1,0 +1,78 @@
+{
+"stationtype": "IQC",
+"columns": [
+	{
+		"name": "timestamp",
+		"inputtype": "timestamp"
+	},
+	{
+		"name": "flexbarcode",
+		"prompt": "Scan Flex Barcode:",
+		"inputtype": "text"
+	},
+	{
+		"name": "travbarcode:",
+		"prompt": "Scan Traveler Barcode:",
+		"inputtype": "text"
+	},
+	{
+		"name": "programmed",
+		"prompt": "Programming Successful?",
+		"inputtype": "radiobutton",
+		"radiooptions": [
+			{
+				"name": "OK",
+				"pass": true,
+				"default": true
+			},
+			{
+				"name": "NG",
+				"pass": false
+			}
+		]
+	},
+	{
+		"name": "visled",
+		"prompt": "Did the Visible LED Flash?",
+		"inputtype": "radiobutton",
+		"radiooptions": [
+			{
+				"name": "OK",
+				"pass": true
+			},
+			{
+				"name": "NG",
+				"pass": false
+			}
+		]
+	},
+	{
+		"name": "irled",
+		"prompt": "Did the Rx Trigger?",
+		"inputtype": "radiobutton",
+		"radiooptions": [
+			{
+				"name": "OK"
+			},
+			{
+				"name": "NG"
+			}
+		]
+	},
+	{
+		"name": "button",
+		"prompt": "Did Pushing the button cause things to happen?",
+		"inputtype": "radiobutton",
+		"radiooptions": [
+			{
+				"name": "OK"
+			},
+			{
+				"name": "NG"
+			}
+		]
+	}
+],
+"stationnumber": 1,
+"version": 1
+}

@@ -1,9 +1,18 @@
 from flask import Flask, render_template, request, jsonify, send_from_directory
 import os
 import datetime
+import json
 
-TOOL_NAME="Lotus Factory Tool for TX"
-TOOL_VERSION="00.00.01"
+
+# Opening JSON file
+f = open('config.json')
+
+# returns JSON object as
+# a dictionary
+configargs = json.load(f)
+
+TOOL_NAME=configargs['stationtype']
+TOOL_VERSION=configargs['version']
 
 app = Flask(__name__)
 
@@ -25,7 +34,7 @@ def index():
             request.form['TextBarCode_1'],
             request.form['TextBarCode_2']))
 
-    return render_template('index_tx.html')
+    return render_template('index_tx.html', configargs=configargs)
 
 
 if __name__ == '__main__':
