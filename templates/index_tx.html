@@ -3,9 +3,35 @@
 <head>
     <title>Lotus {{ configargs['stationtype'] }}</title>
     <link rel=stylesheet type=text/css href="{{ url_for('static', filename='water.css') }}"/>
+
+	<script>
+		function FocusToFirstInputTextField(){document.getElementsByClassName("input_text")[0].focus();}
+		function UpdateTimeStamp(){
+			const  now = new Date();
+			var now_str = now.toLocaleString('ja-jp');	//jp-ja style
+			var elemTimestamp = document.getElementById("id_timestamp");
+			if (elemTimestamp != null)
+			{
+				elemTimestamp.value = now_str;		
+				if (elemTimestamp == document.activeElement)
+				{
+					FocusToFirstInputTextField();
+				}
+				setTimeout(UpdateTimeStamp, 1000);
+			}
+		}
+
+		//Execute after all html is loaded.
+		function func_onload() {
+			setTimeout(UpdateTimeStamp, 300);
+			FocusToFirstInputTextField();
+		}
+
+		window.onload = func_onload;
+	</script>
 </head>
 <body>
-    <img src="{{ url_for('static', filename='lotus_logo.svg') }}" alt="Lotus" style="max-height:32px" width="671" height="133" />
+	<img src="{{ url_for('static', filename='lotus_logo.svg') }}" alt="Lotus" style="max-height:32px" width="671" height="133" />
 
     <h1>{{ configargs['stationtype'] }}</h1>
     <form action="/" method="POST">
@@ -15,17 +41,23 @@
 		<div>
 		  {{ c['prompt'] }}
 		  {% if c['inputtype'] == 'text' %}
-                	<input type="text" name="{{ c['name'] }}" maxlength="20" id="{{ c['name'] }}" required="required">
+                	<input type="text" class="input_text" name="{{ c['name'] }}" maxlength="20" id="{{ c['name'] }}" required="required">
 		  {% endif %}
 		  {% if c['inputtype'] == 'radiobutton' %}
 			{% for opt in c['radiooptions'] %}
-            			<input type="radio" id="{{ opt['name'] }}" name="{{ opt['name'] }}" value="{{ opt['name'] }}" required/>
+            			<input type="radio" id="{{ c['name'] + '_' +  opt['name'] }}" name="{{ c['name'] }}" value="{{ opt['name'] }}" required/>
             			<label for="{{ opt['name'] }}">{{ opt['name'] }}</label>
 			{% endfor %}
 		  {% endif %}
+		  {% if c['inputtype'] == 'timestamp' %}
+		  	<input type="text" name="{{ c['name'] }}" maxlength="20" id="id_timestamp" readonly="readonly" value="---">
+		  {% endif %}		  
 		</div>
 	  </fieldset>
 	{% endfor %}
+        <div>
+            <input type="submit" value="Submit">
+        </div>
     </form>      
 </body>
 </html>
